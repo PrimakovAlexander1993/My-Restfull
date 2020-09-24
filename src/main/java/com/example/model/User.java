@@ -15,7 +15,7 @@ public class User implements UserDetails {
     @Column(name = "id") // Поправил
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@NotNull //попроавил
-    private int id;
+    private Long id;
 
     @Column(name = "login") //login
     private String name;
@@ -34,18 +34,18 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int id, String name, String password, Set<Role> roles) {
+    public User(Long id, String name, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.roles = roles;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

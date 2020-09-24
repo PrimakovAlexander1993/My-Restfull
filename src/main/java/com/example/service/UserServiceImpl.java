@@ -17,12 +17,6 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    //    @Autowired
-//    private UserDaoImpl userDao;
-//
-//    @Autowired
-//    private RoleDao roleDao;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -36,7 +30,7 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = new HashSet<>();
         for (String role: rolesValues) {
             if (roleRepository.countRoleByRole(role) > 0) {
-                roles.add(roleRepository.getRole(role));
+                roles.add(roleRepository.findByRole(role));
             } else {
                 Role newRole = new Role();
                 newRole.setRole(role);
