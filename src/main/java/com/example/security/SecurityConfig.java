@@ -1,5 +1,6 @@
-package com.example.config;
+package com.example.security;
 
+import com.example.config.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

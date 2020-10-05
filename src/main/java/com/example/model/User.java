@@ -12,19 +12,15 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @Column(name = "id") // Поправил
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@NotNull //попроавил
     private Long id;
 
-    @Column(name = "login") //login
+    @Column(name = "login")
     private String name;
 
     @Column(name = "password")
     private String password;
-
-//    @Column(name = "email")
-//    private String email;
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),

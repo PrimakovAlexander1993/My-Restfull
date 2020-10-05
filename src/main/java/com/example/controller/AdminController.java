@@ -4,17 +4,15 @@ import com.example.model.User;
 
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
 
 
 @Controller
-@RequestMapping(value = "/admin")
 public class AdminController {
     private UserService userService;
     @Autowired
@@ -25,31 +23,26 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/admin")
     public String getAllUsers(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("users", userService.listUsers());
-        model.addAttribute("ROLES", Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
-        return "/admin/users";
+        model.addAttribute("userAuthentication", (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal());
+        return "admin";
     }
 
-    @PostMapping(value = "/users/add")
-    public String addUser(@ModelAttribute("user") User user, @RequestParam List<String> rolesValues) {
-        this.userService.addUser(user, rolesValues);
-        return "redirect:/admin/users";
+    @PostMapping(value = "/admin/add")
+    public String addUser(@ModelAttribute("user") User user, @RequestParam("select") String[] rolesValues) {
+        userService.addUser(user, rolesValues);
+        return "redirect:/admin";
     }
 
-    @GetMapping(value = "/users/delete")
+    @GetMapping(value = "/admin/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.removeUser(id);
-        return "redirect:/admin/users";
-    }
-
-    @GetMapping(value = "/editUser")
-    public String editUser(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("users", userService.listUsers());
-        model.addAttribute("ROLES", Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
-        return "/admin/editUser";
+        return "redirect:/admin";
     }
 }

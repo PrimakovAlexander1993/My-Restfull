@@ -10,16 +10,15 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
 
     @Id
-    @Column(name = "id") // поправил
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@NotNull //попроавил
     private Long id;
 
     @Column(name = "role")
     private String role;
 
     @Transient
-    @ManyToMany(mappedBy = "roles") //mappedBy кому принадлежит связь
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Set<User> getUsers() {
@@ -41,6 +40,10 @@ public class Role implements GrantedAuthority {
     public String getRole() {
         return role;
     }
+    public String getSimpleName() {
+        return role.replace("ROLE_", "");
+    }
+
 
     public void setRole(String role) {
         this.role = role;

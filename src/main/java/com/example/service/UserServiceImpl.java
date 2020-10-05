@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void addUser(User user, List<String> rolesValues) {
+    public void addUser(User user, String[] rolesValues) {
         Set<Role> roles = new HashSet<>();
         for (String role: rolesValues) {
             if (roleRepository.countRoleByRole(role) > 0) {
@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) {
         return userRepository.getOne(id);
     }
+
     @Transactional(readOnly = true)
     @Override
     public List<User> listUsers() {
