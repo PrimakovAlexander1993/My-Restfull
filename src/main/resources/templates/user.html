@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <span class="text-light"><strong th:text="${user.getUsername()}"></strong></span>
             <span class="text-light"> with roles: </span>
-            <span class="text-light" id="userRoles"><strong th:each="role : ${user.getRoles()}"
+                 <span class="text-light" id="userRoles"><strong th:each="role : ${user.getRoles()}"
                                              th:text="${role.getSimpleName()} + ' '"></strong></span>
             <ul class="nav navbar-nav flex-nowrap ml-auto">
                 <li class="nav-item" role="presentation"><a class="nav-link text-muted" href="/logout">Logout</a></li>

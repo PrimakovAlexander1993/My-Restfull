@@ -5,25 +5,23 @@ import com.example.model.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @Controller
+@RequestMapping(value = "/admin")
 public class AdminController {
-    private UserService userService;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final UserService userService;
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/admin")
+    @GetMapping(value = "/users")
     public String getAllUsers(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("users", userService.listUsers());
@@ -31,18 +29,18 @@ public class AdminController {
                 .getContext()
                 .getAuthentication()
                 .getPrincipal());
-        return "admin";
+        return "/admin/users";
     }
 
-    @PostMapping(value = "/admin/add")
+    @PostMapping(value = "/add")
     public String addUser(@ModelAttribute("user") User user, @RequestParam("select") String[] rolesValues) {
         userService.addUser(user, rolesValues);
-        return "redirect:/admin";
+        return "redirect:/admin/users";
     }
 
-    @GetMapping(value = "/admin/delete")
+    @GetMapping(value = "/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.removeUser(id);
-        return "redirect:/admin";
+        return "redirect:/admin/users";
     }
 }

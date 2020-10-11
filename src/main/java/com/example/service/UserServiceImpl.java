@@ -17,18 +17,25 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
+    private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Transactional
     @Override
     public void addUser(User user, String[] rolesValues) {
         Set<Role> roles = new HashSet<>();
-        for (String role: rolesValues) {
+        userRepository.findByName(user.getPassword());
+        for (String role : rolesValues) {
             if (roleRepository.countRoleByRole(role) > 0) {
                 roles.add(roleRepository.findByRole(role));
             } else {
@@ -39,10 +46,15 @@ public class UserServiceImpl implements UserService {
             }
         }
         user.setRoles(roles);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if (user.getPassword().isEmpty()) {
+             String previous = userRepository.findByName(user.getUsername()).getPassword();
+            // user.setPassword(bCryptPasswordEncoder.encode(previous));
+            System.out.println("ПАРОЛЬ ОСТАВИЛИ!!!!! " + previous);
+
+        }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));//если не меняли пароль,то тут разделить
         userRepository.save(user);
     }
-
 
 
     @Transactional
