@@ -47,12 +47,11 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(roles);
         if (user.getPassword().isEmpty()) {
-             String previous = userRepository.findByName(user.getUsername()).getPassword();
-            // user.setPassword(bCryptPasswordEncoder.encode(previous));
-            System.out.println("ПАРОЛЬ ОСТАВИЛИ!!!!! " + previous);
-
+            User newUser = getUserById(user.getId());
+            user.setPassword(newUser.getPassword());
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));//если не меняли пароль,то тут разделить
         userRepository.save(user);
     }
 
