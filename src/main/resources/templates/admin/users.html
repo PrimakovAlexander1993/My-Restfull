@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -17,17 +17,20 @@
             <span class="text-light"><strong th:each="role : ${userAuthentication.getRoles()}"
                                              th:text="${role.getSimpleName()} + ' '"></strong></span>
             <ul class="nav navbar-nav flex-nowrap ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link text-muted" href="/logout">Logout</a></li>
+               <li class="nav-item" role="presentation"><a class="nav-link text-muted" href="/logout">Logout</a></li>
             </ul>
         </div>
     </nav>
+
+
     <div class="d-flex">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-2 vh-100">
                     <ul class="nav flex-column nav-pills mx-n3 mt-3" aria-orientation="vertical" id="nav">
-                        <li class="nav-item"><a class="nav-link active border rounded" href="/admin/users">Admin</a>
-                        <li class="nav-item"><a class="nav-link border rounded" href="/user">User</a>
+                        <li class="nav-item"><a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link active border rounded" href="/admin/users">Admin</a>
+                        </li>
+                        <li  class="nav-item"><a class="nav-link border rounded" href="/user">User</a>
                         </li>
                     </ul>
                 </div>
