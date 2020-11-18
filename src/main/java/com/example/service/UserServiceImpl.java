@@ -32,33 +32,27 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void addUser(User user, String[] rolesValues) {
+    public void addUser(User user) {
         Set<Role> roles = new HashSet<>();
-        userRepository.findByName(user.getPassword());
-        for (String role : rolesValues) {
-            if (roleRepository.countRoleByRole(role) > 0) {
-                roles.add(roleRepository.findByRole(role));
+        for (Role role: user.getRoles()) {
+            if (roleRepository.countRoleByName(role.getName()) > 0) {
+                roles.add(roleRepository.getRoleByName(role.getName()));
             } else {
                 Role newRole = new Role();
-                newRole.setRole(role);
+                newRole.setName(role.getName());
                 roleRepository.save(newRole);
                 roles.add(newRole);
             }
         }
         user.setRoles(roles);
-        if (user.getPassword().isEmpty()) {
-            User newUser = getUserById(user.getId());
-            user.setPassword(newUser.getPassword());
-        } else {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
 
     @Transactional
     @Override
-    public void removeUser(Long id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
@@ -70,9 +64,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> listUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
 }
 

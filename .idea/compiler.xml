@@ -29,11 +29,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="MyBootSpringDataBootstrap" />
+        <module name="My-Restfull" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="My-Restfull" options="-parameters" />
       <module name="MyBoot" options="-parameters" />
       <module name="MyBootSpringData" options="-parameters" />
       <module name="MyBootSpringDataBootstrap" options="-parameters" />

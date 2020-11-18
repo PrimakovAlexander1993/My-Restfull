@@ -1,8 +1,18 @@
 $('document').ready(function () {
-    let roles = $('#userRoles').text().trim().split(" ");
-    if (roles == 'USER') {
-        $('#nav').prepend('<li class="nav-item"><a class="nav-link active border rounded" href="/user">User</a></li>');
-    } else {
-        $('#nav').prepend('<li class="nav-item"><a class="nav-link border rounded" href="/admin/users">Admin</a></li>');
-    }
+    $.ajax('/users/userAuth', {
+        method: 'GET',
+        success: function (user) {
+            $('#nameTitle').text(user.name);
+            $('#id').text(user.id);
+            $('#name').text(user.name);
+            $('#pass').text(user.password);
+            user.roles.forEach(function (role) {
+                $('#roleTitle').append('<strong>' + role.simpleName + ' </strong>');
+                $('#role').append('<span>' + role.simpleName + ' </span>');
+                if (role.simpleName === 'ADMIN') {
+                    $('#nav').prepend('<li class="nav-item"><a class="nav-link border rounded" href="/admin">Admin</a></li>');
+                }
+            })
+        }
+    })
 })
