@@ -1,6 +1,5 @@
 $('document').ready(function () {
     $.ajax('/users/userAuth', {
-        method: 'GET',
         success: function (user) {
             $('#nameTitle').text(user.name);
             $('#id').text(user.id);

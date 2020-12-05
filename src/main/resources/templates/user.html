@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -10,22 +10,13 @@
 </head>
 
 <body>
+<header th:insert="fragments/general.html :: header"> </header>
 <div>
-    <nav class="navbar navbar-light navbar-expand-md bg-dark">
-        <div class="container-fluid">
-            <span class="text-light"><strong id="nameTitle"></strong></span>
-            <span class="text-light"> with roles: </span>
-            <span class="text-light" id="roleTitle"></span>
-            <ul class="nav navbar-nav flex-nowrap ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link text-muted" href="/logout">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
     <div class="d-flex">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-2 vh-100">
-                    <ul class="nav nav-pills flex-column mx-auto" id="nav" style="padding: 0px;margin: 13px;">
+                    <ul class="nav nav-pills flex-column mx-auto" id="nav">
                         <li class="nav-item"><a class="nav-link active border rounded" href="/user">User</a></li>
                     </ul>
                 </div>

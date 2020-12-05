@@ -4,12 +4,13 @@ $('document').ready(function () {
         success: function (user) {
             $('#nameTitle').text(user.name);
             user.roles.forEach(function (role) {
-                $('#roleTitle').append('<strong>' + role.simpleName + ' </strong>');
+                $('#roleTitle').append(`<strong> ${role.simpleName} </strong>`);
             })
         }
     })
     showUsers();
 })
+
 //строит таблицу всех юзеров
 function showUsers() {
     $('#users').empty();
@@ -19,34 +20,35 @@ function showUsers() {
         success: function (data) {
             let users = JSON.parse(JSON.stringify(data));
             users.forEach(function (user) {
-                $("#users").append('<tr id="tr' + user.id + '">' +
-                    '<td  id="userId' + user.id + '">' + user.id + '</td>' +
-                    '<td  id="userName' + user.id + '">' + user.name + '</td>' +
-                    '<td  id="userRoles' + user.id + '"></td>' +
-                    '<td >' +
-                    '<button class="btn btn-info" type="button" data-toggle="modal" data-target="#edit" onclick="openEditeModal(' + user.id + ')">Edit</button>' +
-                    '</td>' +
-                    '<td >' +
-                    '<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete" onclick="openDeleteModal(' + user.id + ')">Delete</button>' +
-                    '</td>' +
-                    '</tr>');
+                $("#users").append(`<tr id="tr${user.id}"> 
+                    <td  id="userId${user.id}" > ${user.id}</td> 
+                    <td  id="userName${user.id}" > ${user.name}</td>
+                    <td  id="userRoles${user.id}"></td>
+                    <td>
+                    <button class="btn btn-info" type="button" data-toggle="modal" data-target="#edit" onclick="openEditeModal( ${user.id})">Edit</button>
+                    </td>
+                    <td>
+                    <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delete" onclick="openDeleteModal(${user.id})">Delete</button>
+                    </td>
+                    </tr>`);
                 user.roles.forEach(function (role) {
-                    $("#userRoles" + user.id).append('<span>' + role.simpleName + ' </span>');
+                    $(`#userRoles${user.id}`).append('<span>' + role.simpleName + ' </span>');
                 })
             })
+            $("#users").find(`#tr${id}`).remove();
         }
     })
 }
 
 //открывает модалку для удаления
 function openDeleteModal(id) {
-    let name = $('#userName' + id).text();
-    let roles = $('#userRoles' + id).text().trim().split(" ");
+    let name = $(`#userName${id}`).text()
+    let roles = $(`#userRoles${id}`).text().trim().split(" ");
     $('#delete #id').val(id);
     $('#delete #name').val(name);
     $('#delete #roles').empty();
     $.each(roles, function (key, value) {
-        $('#delete #roles').append('<option value="' + key + '">' + value + '</option>');
+        $('#delete #roles').append(`<option value='key'>' ${value} </option>`);
     });
 }
 
@@ -56,14 +58,14 @@ $('#deleteUser').on('click', function deleteUser() {
     $.ajax('/users/' + id, {
         method: 'DELETE',
         success: function () {
-            $("#users").find('#tr' + id).remove();
+            $("#users").find(`#tr${id}`).remove();
         }
     })
 })
 
 //открывает модалку редактирования
 function openEditeModal(id) {
-    let name = $('#userName' + id).text();
+    let name = $(`#userName${id}`).text()
     $('#idEdite').val(id);
     $('#nameEdite').val(name);
 }
