@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 public class RestControllerV1 {
-
     private UserService userService;
 
     @Autowired
